@@ -1,43 +1,87 @@
-Week 9 Lab - Into The Packets
-Most of the vulnerabilities and exploits we've examined so far, such as XSS or CSRF, operate at the request level, in the realm of HTTP(S). Even something like SQLI, which directly targets specific middleware, is only really possible because of improper exposure at the request level. Since HTTP is the application-layer protocol that enables webapps, this makes sense. But HTTP itself is enabled by a lower-level protocol, TCP/IP, at what's called the transport layer. As the request/response is to HTTP, the network packet is to TCP/IP.
+# Into The Packets
+Most of the vulnerabilities and exploits we've examined so far, such as XSS or
+CSRF, operate at the request level, in the realm of HTTP(S). Even something
+like SQLI, which directly targets specific middleware, is only really possible
+because of improper exposure at the request level. Since HTTP is the
+application-layer protocol that enables webapps, this makes sense. But HTTP
+itself is enabled by a lower-level protocol, TCP/IP, at what's called the
+transport layer. As the request/response is to HTTP, the network packet is to
+TCP/IP.
 
-Topics in Focus
-NetSec Crash Course
-Firewalls
-Intrusion Detection Systems
-Risk Assessment
-Penetration Testing
-Threat Monitoring
-Incident Response
-Staying Motivated When You're In Over Your Head
-packets-yo
+## Topics in Focus
+* NetSec Crash Course
+* Firewalls
+* Intrusion Detection Systems
+* Risk Assessment
+* Penetration Testing
+* Threat Monitoring
+* Incident Response
 
-There are a more than few challenges facing the introduction of NetSec. Coming from web application security, we're now dropping into a lower level of the stack than we've been working with, so the territory will most likely be much less familiar. And that territory is huge: one could build an entire career on some of these topics. If our goal is proficiency when it comes to web security, we can't really hope to achieve any more than an informed level of awareness about topics like packet analysis and intrusion detection.
+## Staying Motivated When You're In Over Your Head
+![Image](http://i.imgur.com/TuOpc3E.gif)
 
-But we can't let that stop us, either: even a very basic level of knowledge about these topics can be quite valuable, both as engineers and as budding security researchers. Even just knowing the jargon goes a long way (newbie: "Is there script or something that can tell me when someone is scanning my computer machine?"; informed newbie: "What's a good IDS for detecting web app footprinting?"). Having a little bit of experience with some of these topics and tools can give you a lot of context when considering possible threats and defensive measures.
+There are a more than few challenges facing the introduction of NetSec. Coming
+from web application security, we're now dropping into a lower level of the
+stack than we've been working with, so the territory will most likely be much
+less familiar. And that territory is huge: one could build an entire career on
+some of these topics. If our goal is proficiency when it comes to web security,
+we can't really hope to achieve any more than an informed level of awareness
+about topics like packet analysis and intrusion detection.
 
-But in a real sense, we're building one of the most valuable skills there is: diving into subject matter that seems hopelessly over our heads. It is perhaps this quality more than any other which marks those who excel in security: a certain fearlessness about swimming beyond their depth. Even the security pros who are acknowledged experts in specialized topics had to start somewhere, but it seems that an unusual amount of them are also conversant in topics far outside their specializations.
+But we can't let that stop us, either: even a very basic level of knowledge
+about these topics can be quite valuable, both as engineers and as budding
+security researchers. Even just knowing the jargon goes a long way (newbie: "Is
+there script or something that can tell me when someone is scanning my computer
+machine?"; informed newbie: "What's a good IDS for detecting web app
+footprinting?"). Having a little bit of experience with some of these topics
+and tools can give you a lot of context when considering possible threats and
+defensive measures.
 
-As engineers, we're taught the value of comprehensive learning, starting with the fundamentals and progressing deliberately toward mastery, and we develop a healthy respect for the depth of true expertise. As hackers, we are often called to set all that healthy respect aside, acquire knowledge tactically, apply techniques surgically, and forge our own path, often in defiance of convention, standards and practices.
+But in a real sense, we're building one of the most valuable skills there is:
+diving into subject matter that seems hopelessly over our heads. It is perhaps
+this quality more than any other which marks those who excel in security: a
+certain fearlessness about swimming beyond their depth. Even the security pros
+who are acknowledged experts in specialized topics had to start somewhere, but
+it seems that an unusual amount of them are also conversant in topics far
+outside their specializations.
 
-Milestone 0: Networking Toolbox
-We'll start with a rundown of the most basic net tools you should be familiar with. Most of these aren't hacking tools or even utilities specific to security; they're basic tools that every programmer should know how to use. These are so well documented we won't cover usage here, but you should make sure you understand at least the basic use cases of each and be able to answer all the challenge questions. These lists aren't by any means comprehensive, nor are the tools on them equally important.
+As engineers, we're taught the value of comprehensive learning, starting with
+the fundamentals and progressing deliberately toward mastery, and we develop a
+healthy respect for the depth of true expertise. As hackers, we are often
+called to set all that healthy respect aside, acquire knowledge tactically,
+apply techniques surgically, and forge our own path, often in defiance of
+convention, standards and practices.
 
-The following tools are standard on most unix/linux systems, as well as macOS; anything that isn't already available should be easily installable via a package manager like apt or brew. If you're using Windows as your host and can't install one of these try using your Kali Linux container.
-Utilities
+## Milestone 0: Networking Toolbox
+We'll start with a rundown of the most basic net tools you should be familiar
+with. Most of these aren't hacking tools or even utilities specific to
+security; they're basic tools that every programmer should know how to use.
+These are so well documented we won't cover usage here, but you should make
+sure you understand at least the basic use cases of each and be able to answer
+all the challenge questions. These lists aren't by any means comprehensive, nor
+are the tools on them equally important.
+
+> The following tools are standard on most unix/linux systems, as well as
+> macOS; anything that isn't already available should be easily installable via
+> a package manager like apt or brew. If you're using Windows as your host and
+> can't install one of these try using your Kali Linux container.
+
+### Utilities
 
 Very basic, single-serving utilities for discovering information about a network
 
-ifconfig
-Facts
-List information about available network interfaces (NICs)
-Can start/stop individual interfaces
-Can change an interface's MAC address
-Challenges
-Run ifconfig and determine the name/id of your primary network interface
-What is your primary interface's IP address? Is it different from your public IP? Why or why not?
-What is the MAC address of your primary interface?
-Identify and understand your loopback interface
+> `ifconfig`
+
+* Facts
+    * List information about available [network interfaces (NICs)](https://en.wikipedia.org/wiki/Network_card)
+    * Can start/stop individual interfaces
+    * Can [change an interface's MAC address](https://en.wikipedia.org/wiki/Ifconfig#Media_access_control_functions)
+* Challenges
+    * Run ifconfig and determine the name/id of your primary network interface
+    * What is your primary interface's IP address? Is it different from your public IP? Why or why not?
+    * What is the MAC address of your primary interface?
+    * Identify and understand your loopback interface
+
 ping
 Facts
 Determine the reachability of a specific destination
