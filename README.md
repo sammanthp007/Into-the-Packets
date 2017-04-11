@@ -77,20 +77,28 @@ Very basic, single-serving utilities for discovering information about a network
     * Can start/stop individual interfaces
     * Can [change an interface's MAC address](https://en.wikipedia.org/wiki/Ifconfig#Media_access_control_functions)
 * Challenges
-    * Run ifconfig and determine the name/id of your primary network interface
+    * Run `ifconfig` and determine the name/id of your primary network interface
+> primary network id: wlp2s0
     * What is your primary interface's IP address? Is it different from your public IP? Why or why not?
+> ip: 172.16.36.55/23, it is not different from my public IP. I don't know why.
     * What is the MAC address of your primary interface?
-    * Identify and understand your loopback interface
+> MAC address: can't write it here but it looks like HWaddr 00:0F:20:CF:8B:42
+    * Identify and understand your [loopback interface](http://askubuntu.com/questions/247625/what-is-the-loopback-device-and-how-do-i-use-it)
+> Done
 
-ping
-Facts
-Determine the reachability of a specific destination
-Determine the IP resolved from a specific hostname
-Displays the latency of the network connection
-Challenges
-What is the IP address of codepath.com?
-What is the IP address of google.com?
-Why would the IP address of google.com change between runs or from different locations?
+> `ping`
+* Facts
+    * Determine the reachability of a specific destination
+    * Determine the IP resolved from a specific hostname
+    * Displays the latency of the network connection
+* Challenges
+    * What is the IP address of codepath.com?
+> 198.58.125.217
+    * What is the IP address of google.com?
+> 172.217.8.14
+    * Why would the IP address of google.com change between runs or from different locations?
+> Because Google serves from multiple data centers.
+
 nslookup
 Facts
 Command line interface for DNS server queries
