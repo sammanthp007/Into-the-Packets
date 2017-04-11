@@ -79,15 +79,12 @@ Very basic, single-serving utilities for discovering information about a network
 * Challenges
     * Run `ifconfig` and determine the name/id of your primary network interface
     > primary network id: wlp2s0
-
     * What is your primary interface's IP address? Is it different from your public IP? Why or why not?
-> ip: 172.16.36.55/23, it is not different from my public IP. I don't know why.
-
+    > ip: 172.16.36.55/23, it is not different from my public IP. I don't know why.
     * What is the MAC address of your primary interface?
-> MAC address: can't write it here but it looks like HWaddr 00:0F:20:CF:8B:42
-
+    > MAC address: can't write it here but it looks like HWaddr 00:0F:20:CF:8B:42
     * Identify and understand your [loopback interface](http://askubuntu.com/questions/247625/what-is-the-loopback-device-and-how-do-i-use-it)
-> Done
+    > Done
 
 > `ping`
 
@@ -97,10 +94,9 @@ Very basic, single-serving utilities for discovering information about a network
     * Displays the latency of the network connection
 * Challenges
     * What is the IP address of codepath.com?
-> 198.58.125.217
-
+    > 198.58.125.217
     * What is the IP address of google.com?
-> 172.217.8.14
+    > 172.217.8.14
 
     * Why would the IP address of google.com change between runs or from different locations?
 > Because Google serves from multiple data centers.
