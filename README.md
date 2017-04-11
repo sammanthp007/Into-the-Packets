@@ -80,6 +80,7 @@ Very basic, single-serving utilities for discovering information about a network
     * Run `ifconfig` and determine the name/id of your primary network interface
 > primary network id: wlp2s0
 
+
     * What is your primary interface's IP address? Is it different from your public IP? Why or why not?
 > ip: 172.16.36.55/23, it is not different from my public IP. I don't know why.
 
