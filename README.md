@@ -271,31 +271,31 @@ are the ones to know.
       search for systems allowing password authentication and root access
 * Challenges
     * Why is key authentication preferred to passwords?
-    Both keys and passwords have their pros and cons. The reason that "howtos"
-    and the like advise using the SSH key is that they find their cons less
-    worrisome than passwords' cons.
-    
-    SSH keys are long and complex, far more than any password could be. But as
-    you state, they don't have expiry, and they sit on disk where they can be
-    stolen from. On the other hand, they don't get transmitted to the remote
-    system (except key forwarding, natch) which passwords need to be.
-    
-    Passwords are generally, predictably, unavoidably weak. While it is
-    possible to have strong passwords, time and again it has been shown that
-    people will use weak passwords and have poor password practices... short,
-    simple, word-based, simple patterns ("p@ssw0rd!"), write them down, use
-    them on multiple sites, base them on their phone number, their children's
-    birthdate, their own name. You point out that keys don't expire, but why do
-    passwords expire? To ensure that a brute-force attack is less likely to
-    crack a password before it's been replaced. Not an issue that impacts keys.
-    
-    And, bad passwords aside, even "good" passwords are vulnerable to
-    brute-force (online or offline) under the right conditions. They have to
-    get transmitted to the other system, or to any other place that the user
-    can be fooled into sending them by mistake.
-    
-    The balance of evidence strongly suggests that passwords are weaker and
-    keys are stronger.
+        Both keys and passwords have their pros and cons. The reason that "howtos"
+        and the like advise using the SSH key is that they find their cons less
+        worrisome than passwords' cons.
+        
+        SSH keys are long and complex, far more than any password could be. But as
+        you state, they don't have expiry, and they sit on disk where they can be
+        stolen from. On the other hand, they don't get transmitted to the remote
+        system (except key forwarding, natch) which passwords need to be.
+        
+        Passwords are generally, predictably, unavoidably weak. While it is
+        possible to have strong passwords, time and again it has been shown that
+        people will use weak passwords and have poor password practices... short,
+        simple, word-based, simple patterns ("p@ssw0rd!"), write them down, use
+        them on multiple sites, base them on their phone number, their children's
+        birthdate, their own name. You point out that keys don't expire, but why do
+        passwords expire? To ensure that a brute-force attack is less likely to
+        crack a password before it's been replaced. Not an issue that impacts keys.
+        
+        And, bad passwords aside, even "good" passwords are vulnerable to
+        brute-force (online or offline) under the right conditions. They have to
+        get transmitted to the other system, or to any other place that the user
+        can be fooled into sending them by mistake.
+        
+        The balance of evidence strongly suggests that passwords are weaker and
+        keys are stronger.
     * What is the syntax for copying a file from a local folder to a remote one?
     > `scp -r user@your.server.example.com:/path/to/foo /home/user/Desktop/`
 
@@ -303,10 +303,11 @@ are the ones to know.
 The following tools are a bit more obscure or specialized, so we'll review some
 basic usage.
 
-> netcat (aka `nc`, `ncat`)
+> [netcat](https://en.wikipedia.org/wiki/Netcat) (aka `nc`, `ncat`)
 * Supports network reads/writes using TCP/UDP
 * Can be used for most network diagnostic tasks (detect open ports)
-* Supports tunneling and can be used for backdoors
+* Supports [tunneling](https://en.wikipedia.org/wiki/Tunneling_protocol) and
+  can be used for backdoors
 
 Open a terminal window and start netcat listening in server mode port 2389:
 ```
@@ -380,6 +381,7 @@ $ nmap -sV -p 22,53,110,143,4564 198.116.0-255.1-127
 # -p 80 checks port 80 (web servers)
 $ nmap -v -iR 100000 -Pn -p 80
 ```
+* Self found guide: [nmap cheatsheet](https://hackertarget.com/nmap-cheatsheet-a-quick-reference-guide/)
 
 * Read the official `nmap` [Reference Guide](https://`nmap`.org/book/man.html)
 * Mac Users: installing `nmap` via homebrew also gives you ncat, an extended,
@@ -387,6 +389,7 @@ $ nmap -v -iR 100000 -Pn -p 80
 
 **Challenge 1**: Run `nmap` against your localhost IP to see all open ports
 * See how many of the ports you can match to services
+> Two
 * Hint: try shutting down Docker or Virtualbox and re-running `nmap`
 
 **Optional Challenge 2**: Map your home LAN using `nmap`
