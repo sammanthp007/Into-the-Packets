@@ -108,7 +108,12 @@ Very basic, single-serving utilities for discovering information about a network
     * Often (but not always) helpful for determining an IP's provenance
 * Challenges
     * Using the IP for `codepath.com` from the previous, pass it to nslookup
+    > `nslookup codepath.com` or `nslookup 172.217.8.214`
+    > 217.125.58.198.in-addr.arpa	name = thecodepath.com.
+    > Authoritative answers can be found from:
+
     * Does the domain returned from nslookup match? If not, why not?
+    > Not exactly, it says the name is thecodepath.com and not codepath.com
 
 `traceroute`
 * Facts
