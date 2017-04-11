@@ -97,101 +97,135 @@ Very basic, single-serving utilities for discovering information about a network
     > 198.58.125.217
     * What is the IP address of google.com?
     > 172.217.8.14
-
     * Why would the IP address of google.com change between runs or from different locations?
-> Because Google serves from multiple data centers.
+    > Because Google serves from multiple data centers.
 
-nslookup
-Facts
-Command line interface for DNS server queries
-Determine IP from hostname or hosts from IP
-Often (but not always) helpful for determining an IP's provenance
-Challenges
-Using the IP for codepath.com from the previous, pass it to nslookup
-Does the domain returned from nslookup match? If not, why not?
-traceroute
-Facts
-Determine the path to a specific destination
-Each step in the path is called a hop
-Determine the latency at each hop
-Challenges
-Compare the traceroutes for codepath.com and google.com
-How many of the hops are the same? What accounts for this?
-Which has more hops? What accounts for the difference?
-telnet
-Facts
-Both a protocol and a command line utility
-Part of the early internet
-Largely abandoned in favor of ssh
-Still useful to determine if a port is open
-Challenges
-What's one thing that makes telnet insecure?
-Can you telnet to codepath.com? What port is open and why?
-Core Tools
+`nslookup`
 
-The following are very widely used by engineers of all stripes and will be invaluable over the course of a career. If you don't know them, you need to. If you're going to spend extra time with any of the tools in this milestone, these are the ones to know.
+* Facts
+    * Command line interface for DNS server queries
+    * Determine IP from hostname or hosts from IP
+    * Often (but not always) helpful for determining an IP's provenance
+* Challenges
+    * Using the IP for `codepath.com` from the previous, pass it to nslookup
+    * Does the domain returned from nslookup match? If not, why not?
 
-curl and wget
-Facts
-Both can download contents from FTP, HTTP and HTTPS
-Both can send HTTP POST requests and use HTTP cookies
-Both are scriptable
+`traceroute`
+* Facts
+    * Determine the path to a specific destination
+    * Each step in the path is called a hop
+    * Determine the latency at each hop
 Challenges
-Identify some differences between the two
-Which would you be more likely to use for interacting with a RESTful API from the command line?
-Which support recursive downloading?
-Which are you more likely to find pre-installed on a Linux OS?
-What is the syntax for each for downloading a file to the current directory?
-ssh and scp
-Facts
-Industry standard method for establishing a remote shell or copying files to/from remote machine
-Authentication can be password based or via ~/.ssh/authorized_keys (see ssh-keygen)
-A prime target for footprinting due to the access it provides. Scanners search for systems allowing password authentication and root access
-Challenges
-Why is key authentication preferred to passwords?
-What is the syntax for copying a file from a local folder to a remote one?
-Milestone 1: Security-Flavored Net Tools
-The following tools are a bit more obscure or specialized, so we'll review some basic usage.
+    * Compare the traceroutes for `codepath.com` and `google.com`
+    * How many of the hops are the same? What accounts for this?
+    * Which has more hops? What accounts for the difference?
 
-netcat (aka nc, ncat)
-Supports network reads/writes using TCP/UDP
-Can be used for most network diagnostic tasks (detect open ports)
-Supports tunneling and can be used for backdoors
+`telnet`
+* Facts
+    * Both a protocol and a command line utility
+    * Part of the early internet
+    * Largely abandoned in favor of ssh
+    * Still useful to [determine if a port is open](https://kb.acronis.com/content/7503)
+Challenges
+    * What's one thing that makes `telnet` insecure?
+    * Can you telnet to `codepath.com`? What port is open and why?
+
+## Core Tools
+
+The following are very widely used by engineers of all stripes and will be
+invaluable over the course of a career. If you don't know them, you need to. If
+you're going to spend extra time with any of the tools in this milestone, these
+are the ones to know.
+
+> `curl` and `wget`
+
+* Facts
+    * Both can download contents from FTP, HTTP and HTTPS
+    * Both can send HTTP POST requests and use HTTP cookies
+    * Both are scriptable
+* Challenges
+    * Identify some differences between the two
+    * Which would you be more likely to use for interacting with a RESTful API
+      from the command line?
+    * Which support recursive downloading?
+    * Which are you more likely to find pre-installed on a Linux OS?
+    * What is the syntax for each for downloading a file to the current directory?
+
+> `ssh` and `scp`
+
+* Facts
+    * Industry standard method for establishing a remote shell or copying files to/from remote machine
+    * Authentication can be password based or via ~/.ssh/authorized_keys (see [ssh-keygen](https://en.wikipedia.org/wiki/Ssh-keygen))
+    * A prime target for footprinting due to the access it provides. Scanners
+      search for systems allowing password authentication and root access
+* Challenges
+    * Why is key authentication preferred to passwords?
+    * What is the syntax for copying a file from a local folder to a remote one?
+
+## Milestone 1: Security-Flavored Net Tools
+The following tools are a bit more obscure or specialized, so we'll review some
+basic usage.
+
+> netcat (aka `nc`, `ncat`)
+* Supports network reads/writes using TCP/UDP
+* Can be used for most network diagnostic tasks (detect open ports)
+* Supports tunneling and can be used for backdoors
+
 Open a terminal window and start netcat listening in server mode port 2389:
-
+```
 # Listen in server mode
 $ nc -l 2389
+```
 Open a second terminal window and connect in client mode:
-
+```
 # Connect in client mode
 $ nc localhost 2389
-Now, type some text in window #2 and watch it appear in window #1. Magic. CTRL-C in window #2 will kill both processes.
+```
+Now, type some text in window #2 and watch it appear in window #1. Magic.
+`CTRL-C` in window #2 will kill both processes.
 
 Let's try a simple file transfer. In window #1, netcat listens in server mode and pipes the output to a file:
-
+```
 $ nc -l 2389 > received.txt
+```
 In window #2, create a simple file and send it via client mode:
-
+```
 $ echo "CodePath Rocks" > message.txt
 $ cat message.txt | nc localhost 2389
-Running cat received.txt in window #1 should echo CodePath Rocks
+```
+Running `cat received.txt` in window #1 should echo `CodePath Rocks`
 
-You can use netcat in a manner similar to telnet. For instance, the following will establish a connect to dict.org and let you lookup an English word's definition:
-
+You can use netcat in a manner similar to `telnet.` For instance, the following
+will establish a connect to dict.org and let you lookup an English word's
+definition:
+```
 $ nc dict.org 2628
 # 220 pan.alephnull.com dictd 1.12.1/rf on Linux 4.4.0-1-amd64 <auth.mime> <40503875.15857.1490380824@pan.alephnull.com>
 $ DEFINE wn peripatetic
-You can also use netcat for basic port scanning. Scan 192.168.0.1 for open ports in the range 80 - 90:
-
+```
+You can also use netcat for basic port scanning. Scan 192.168.0.1 for open
+ports in the range 80 - 90:
+```
 $ nc -z 192.168.0.1 80-90
 # Connection to 192.168.0.1 port 80 [tcp/http] succeeded!
-nmap
-Maps a network by sending packets and analyzing responses
-Can detect hosts, services, OS, and more
-Widely used and extended for all sorts of network discovery and pentesting tasks
-Install nmap via apt or brew
-nmap is an old school hacking tool that is still actively used and developed. It's very scriptable and supports a whole community of users. The maintainers have even kindly setup a demo target at http://scanme.nmap.org/ for you to play around with. A few examples follow (note the second one requires superuser privs on certain systems):
+```
 
+> `nmap`
+
+* Maps a network by sending packets and analyzing responses
+* Can detect hosts, services, OS, and more
+* Widely used and extended for all sorts of network discovery and pentesting
+  tasks
+* Install `nmap` via `apt` or `brew`
+
+`nmap` is an old school hacking tool that is still actively used and developed.
+It's very scriptable and supports a whole community of users. The maintainers
+have even kindly setup a demo target at
+[http://scanme.nmap.org/](http://scanme.nmap.org/) for you to play
+around with. A few examples follow (note the second one requires superuser
+privs on certain systems):
+
+```
 # Scan a single server
 $ nmap -v scanme.nmap.org
 
@@ -208,22 +242,36 @@ $ nmap -sV -p 22,53,110,143,4564 198.116.0-255.1-127
 # -Pn disables host enumeration
 # -p 80 checks port 80 (web servers)
 $ nmap -v -iR 100000 -Pn -p 80
-Read the official nmap Reference Guide
-Mac Users: installing nmap via homebrew also gives you ncat, an extended, more powerful version of netcat than the nc that comes with the OS
-Challenge 1: Run nmap against your localhost IP to see all open ports
+```
 
-See how many of the ports you can match to services
-Hint: try shutting down Docker or Virtualbox and re-running nmap
-Optional Challenge 2: Map your home LAN using nmap
+* Read the official `nmap` [Reference Guide](https://`nmap`.org/book/man.html)
+* Mac Users: installing `nmap` via homebrew also gives you ncat, an extended,
+  more powerful version of netcat than the nc that comes with the OS
 
-If you can, do this at home instead of while connected to a larger network (like school or work)
-Start by reading about host discovery with nmap
-Determine the target IP range from your local IP. For instance, 192.168.2.0/24 denotes the range of IPs between 192.168.2.0 through 192.168.2.255
-Read Understanding IP Addresses, Subnets, and CIDR Notation for more background.
-Use the stealth scan against your target IP range: sudo nmap -sP 192.168.2.1/24
-In addition to the IPs, the manufacturer info should be displayed next to each device's MAC address. See if you can account for all the devices present: router, computers, mobile devices, printers, etc.
-Milestone 2: Grabbing Packets with tcpdump
-tcpdump
+**Challenge 1**: Run `nmap` against your localhost IP to see all open ports
+* See how many of the ports you can match to services
+* Hint: try shutting down Docker or Virtualbox and re-running `nmap`
+
+**Optional Challenge 2**: Map your home LAN using `nmap`
+
+* If you can, do this at home instead of while connected to a larger network
+  (like school or work)
+* Start by reading about [host
+  discovery](https://nmap.org/book/man-host-discovery.html) with `nmap`
+* Determine the target IP range from your local IP. For instance,
+  `192.168.2.0/24` denotes the range of IPs between `192.168.2.0` through
+  `192.168.2.255`
+* Read [Understanding IP Addresses, Subnets, and CIDR
+  Notation](https://www.digitalocean.com/community/tutorials/understanding-ip-addresses-subnets-and-cidr-notation-for-networking)
+  for more background.
+* Use the stealth scan against your target IP range: `sudo nmap -sP
+  192.168.2.1/24`
+* In addition to the IPs, the manufacturer info should be displayed next to
+  each device's MAC address. See if you can account for all the devices
+  present: router, computers, mobile devices, printers, etc.
+
+## Milestone 2: Grabbing Packets with tcpdump
+> `tcpdump`
 Command-line packet capture and analysis tool
 Scriptable and widely used for capture
 Typical usage: capturing packets for analysis in another app, such as Wireshark
